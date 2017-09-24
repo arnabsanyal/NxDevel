@@ -3,41 +3,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "graphKernels.h"
 
 /*================================================================================================================
-Structure Definition(s)
+Structure Declarations from header file 
 ================================================================================================================*/
 
-struct graphData {
-	int V;
-	int E;
-	int* offsets;
-	float* weight;
-	int* neighbours;
-};
-
-struct pair {
-	int source;
-	int destination;
-};
-
-/*================================================================================================================
-Function Prototype(s)
-================================================================================================================*/
-
-struct graphData buildGraph(char *sourceFile);
-int printGraph(struct graphData inputGraph);
-int printPairs(struct pair *array, int n);
+struct graphData;
+struct pair;
 
 /*================================================================================================================
 Function Definition(ks)
 ================================================================================================================*/
-
-int main(int argc, char *argv[]) {
-	struct graphData busData = buildGraph(argv[1]);
-	printf("Generated graph status = %d\n\n", printGraph(busData));
-	return 0;
-}
 
 struct graphData buildGraph(char *sourceFile) {
 	struct graphData populateBus;
