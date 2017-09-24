@@ -6,5 +6,6 @@
 int main(int argc, char *argv[]) {
 	struct graphData busData = buildGraph(argv[1]);
 	printf("Generated graph status = %d\n\n", printGraph(busData));
+	printf("Queue status = %d\n", shortestPathUnweightedBFS(busData, 0, 0));
 	return 0;
 }

@@ -28,5 +28,6 @@ Function Prototype(s)
 struct graphData buildGraph(char *sourceFile);
 int printGraph(struct graphData inputGraph);
 int printPairs(struct pair *array, int n);
+int shortestPathUnweightedBFS(struct graphData busData, int destination, int source);
 
 #endif
