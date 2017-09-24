@@ -13,7 +13,7 @@ struct graphData;
 struct pair;
 
 /*================================================================================================================
-Function Definition(ks)
+Overriding Function Definition(s)
 ================================================================================================================*/
 
 struct graphData buildGraph(char *sourceFile) {
