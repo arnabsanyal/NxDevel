@@ -86,13 +86,18 @@ short* shortestPathUnweightedBFS(struct graphData busData, int root) {
 
 	initializeQueue();
 	enqueue(root);
-	nodeList[root - 1] = -1;
-	int shortestDistance = 1;
+	nodeList[root - 1] = 0;
+	int current;
 	int nextNodesStart, nextNodesEnd, index, limit;
 	while(!checkEmptyQueue()) {
+		//printf("Enters Loop\n");
 		index = dequeue();
-		nextNodesStart = --index;
-		if(busData.offsets[nextNodesStart] == -1)
+		//printf("Dequeued %d\n", index);
+		//printf("Check Queue Status %d\n", checkEmptyQueue());
+		nextNodesStart = busData.offsets[--index];
+		current = index;
+		//printf("nextNodesStart %d\n", nextNodesStart);
+		if(nextNodesStart == -1)
 			continue;
 		/*
 		Nodes are numbered from 1 to max_bus_number ...
@@ -101,19 +106,27 @@ short* shortestPathUnweightedBFS(struct graphData busData, int root) {
 		*/
 		limit = busData.V - 1;
 		while(index < limit) {
-			nextNodesEnd = ++index;
-			if(busData.offsets[nextNodesEnd] != -1)
+			nextNodesEnd = busData.offsets[++index];
+			if(nextNodesEnd != -1)
 				break;
 		}
-		if(busData.offsets[nextNodesEnd] == -1)
+		if(nextNodesEnd == -1)
 			nextNodesEnd = busData.E;
+		//printf("nextNodesEnd %d\n", nextNodesEnd);
 		for(limit = nextNodesStart; limit < nextNodesEnd; limit++) {
-			enqueue(busData.neighbours[limit]);
-			nodeList[busData.neighbours[limit]] = shortestDistance;
+			if(nodeList[busData.neighbours[limit] - 1] == 0) {
+				enqueue(busData.neighbours[limit]);
+				nodeList[busData.neighbours[limit] - 1] = nodeList[current] + 1;
+				/*
+				printf("Enqueued %d, with shortest distance %d\n", \
+					busData.neighbours[limit], nodeList[busData.neighbours[limit] - 1]);
+				*/
+			}
 		}
-		shortestDistance++;
+		//printf("Check Queue Status %d\n\n", checkEmptyQueue());
 	}
 
+	nodeList[root - 1] = -1;
 	return nodeList;
 }
 
