@@ -85,13 +85,36 @@ short* shortestPathUnweightedBFS(struct graphData busData, int root) {
 	*/
 
 	initializeQueue();
-	enqueue(source);
-	nodeList[source - 1] = 1;
-	int shortestDistance = 0;
+	enqueue(root);
+	nodeList[root - 1] = -1;
+	int shortestDistance = 1;
+	int nextNodesStart, nextNodesEnd, index, limit;
 	while(!checkEmptyQueue()) {
-
+		index = dequeue();
+		nextNodesStart = --index;
+		if(busData.offsets[nextNodesStart] == -1)
+			continue;
+		/*
+		Nodes are numbered from 1 to max_bus_number ...
+		Check if visited ...
+		Use local variables and replace expressions like busData.V - 1 ...
+		*/
+		limit = busData.V - 1;
+		while(index < limit) {
+			nextNodesEnd = ++index;
+			if(busData.offsets[nextNodesEnd] != -1)
+				break;
+		}
+		if(busData.offsets[nextNodesEnd] == -1)
+			nextNodesEnd = busData.E;
+		for(limit = nextNodesStart; limit < nextNodesEnd; limit++) {
+			enqueue(busData.neighbours[limit]);
+			nodeList[busData.neighbours[limit]] = shortestDistance;
+		}
+		shortestDistance++;
 	}
-	return shortestDistance;
+
+	return nodeList;
 }
 
 /*===============================================================================================================
